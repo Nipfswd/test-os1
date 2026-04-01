@@ -1,15 +1,13 @@
 #include "keyboard.h"
 #include "../cpu/ports.h"
 #include "../cpu/isr.h"
-#include "screen.h"
 #include "../libc/string.h"
 #include "../libc/function.h"
 #include "../kernel/kernel.h"
-#include "../gui/gui.h"
 #include <stdint.h>
 
 #define BACKSPACE 0x0E
-#define ENTER 0x1C
+#define ENTER     0x1C
 
 static char key_buffer[256];
 
@@ -35,39 +33,19 @@ static void keyboard_callback(registers_t *regs) {
         return;
     }
 
-    /* GUI mode */
-    if (gui_active) {
-        if (scancode == BACKSPACE) {
-            gui_handle_backspace();
-        } else if (scancode == ENTER) {
-            gui_handle_enter();
-        } else {
-            char letter = sc_ascii[(int)scancode];
-            if (letter != '?')
-                gui_handle_char(letter);
-        }
-        UNUSED(regs);
-        return;
-    }
-
-    /* CLI mode */
     if (scancode == BACKSPACE) {
         backspace(key_buffer);
-        kprint_backspace();
     } else if (scancode == ENTER) {
-        kprint("\n");
         user_input(key_buffer);
         key_buffer[0] = '\0';
     } else {
         char letter = sc_ascii[(int)scancode];
-        char str[2] = {letter, '\0'};
         append(key_buffer, letter);
-        kprint(str);
     }
 
     UNUSED(regs);
 }
 
 void init_keyboard() {
-   register_interrupt_handler(IRQ1, keyboard_callback); 
+    register_interrupt_handler(IRQ1, keyboard_callback); 
 }

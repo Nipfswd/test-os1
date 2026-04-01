@@ -1,12 +1,12 @@
-C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c libc/*.c gui/*.c)
-HEADERS = $(wildcard kernel/*.h drivers/*.h cpu/*.h libc/*.h gui/*.h)
+C_SOURCES = $(wildcard kernel/*.c drivers/*.c cpu/*.c libc/*.c video/*.c)
+HEADERS   = $(wildcard kernel/*.h drivers/*.h cpu/*.h libc/*.h video/*.h)
 
 OBJ = ${C_SOURCES:.c=.o cpu/interrupt.o}
 
 CROSS = i686-elf
-CC = $(CROSS)-gcc
-LD = $(CROSS)-ld
-GDB = $(CROSS)-gdb
+CC	= $(CROSS)-gcc
+LD	= $(CROSS)-ld
+GDB   = $(CROSS)-gdb
 
 CFLAGS = -g -ffreestanding -Wall -Wextra -fno-exceptions -m32
 
@@ -37,4 +37,4 @@ debug: os-image.bin kernel.elf
 
 clean:
 	rm -rf *.bin *.dis *.o os-image.bin *.elf
-	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o libc/*.o gui/*.o
+	rm -rf kernel/*.o boot/*.bin drivers/*.o boot/*.o cpu/*.o libc/*.o video/*.o
