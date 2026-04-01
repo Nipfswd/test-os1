@@ -1,2 +1,4 @@
 # as of right now, bin files are small.
-#*.bin
+*.bin
+*.o
+*.
