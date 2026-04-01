@@ -1,1 +1,2 @@
-*.bin
+# as of right now, bin files are small.
+#*.bin
